@@ -1,0 +1,371 @@
+{
+  "openapi": "3.0.0",
+  "info":
+    {
+      "title": "Forum Social API",
+      "description": "Complete CRUD API for Forums, Topics, Posts, and Replies.",
+      "version": "1.0.0",
+    },
+  "servers": [{ "url": "https://your-mock-server-url.mock.pstmn.io" }],
+  "paths":
+    {
+      "/forums":
+        {
+          "get":
+            {
+              "summary": "List all forums",
+              "responses":
+                {
+                  "200":
+                    {
+                      "description": "Successful response",
+                      "content":
+                        {
+                          "application/json":
+                            {
+                              "schema":
+                                {
+                                  "type": "array",
+                                  "items":
+                                    { "$ref": "#/components/schemas/Forum" },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+          "post":
+            {
+              "summary": "Create a new forum",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            { "$ref": "#/components/schemas/ForumInput" },
+                        },
+                    },
+                },
+              "responses": { "201": { "description": "Created" } },
+            },
+        },
+      "/forums/{forumId}":
+        {
+          "parameters":
+            [
+              {
+                "name": "forumId",
+                "in": "path",
+                "required": true,
+                "schema": { "type": "integer" },
+              },
+            ],
+          "get":
+            {
+              "summary": "Retrieve a specific forum",
+              "responses": { "200": { "description": "Successful response" } },
+            },
+          "put":
+            {
+              "summary": "Update a specific forum",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            { "$ref": "#/components/schemas/ForumInput" },
+                        },
+                    },
+                },
+              "responses": { "200": { "description": "Updated" } },
+            },
+          "delete":
+            {
+              "summary": "Delete a specific forum",
+              "responses": { "204": { "description": "No Content" } },
+            },
+        },
+      "/forums/{forumId}/topics":
+        {
+          "parameters":
+            [
+              {
+                "name": "forumId",
+                "in": "path",
+                "required": true,
+                "schema": { "type": "integer" },
+              },
+            ],
+          "get":
+            {
+              "summary": "List all topics",
+              "responses": { "200": { "description": "Successful response" } },
+            },
+          "post":
+            {
+              "summary": "Create a new topic",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            { "$ref": "#/components/schemas/TopicInput" },
+                        },
+                    },
+                },
+              "responses": { "201": { "description": "Created" } },
+            },
+        },
+      "/topics/{topicId}":
+        {
+          "parameters":
+            [
+              {
+                "name": "topicId",
+                "in": "path",
+                "required": true,
+                "schema": { "type": "integer" },
+              },
+            ],
+          "get":
+            {
+              "summary": "Retrieve a specific topic",
+              "responses": { "200": { "description": "Successful response" } },
+            },
+          "put":
+            {
+              "summary": "Update a specific topic",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            { "$ref": "#/components/schemas/TopicInput" },
+                        },
+                    },
+                },
+              "responses": { "200": { "description": "Updated" } },
+            },
+          "delete":
+            {
+              "summary": "Delete a specific topic",
+              "responses": { "204": { "description": "No Content" } },
+            },
+        },
+      "/topics/{topicId}/posts":
+        {
+          "parameters":
+            [
+              {
+                "name": "topicId",
+                "in": "path",
+                "required": true,
+                "schema": { "type": "integer" },
+              },
+            ],
+          "get":
+            {
+              "summary": "List all posts",
+              "responses": { "200": { "description": "Successful response" } },
+            },
+          "post":
+            {
+              "summary": "Create a new post",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            { "$ref": "#/components/schemas/PostInput" },
+                        },
+                    },
+                },
+              "responses": { "201": { "description": "Created" } },
+            },
+        },
+      "/posts/{postId}":
+        {
+          "parameters":
+            [
+              {
+                "name": "postId",
+                "in": "path",
+                "required": true,
+                "schema": { "type": "integer" },
+              },
+            ],
+          "get":
+            {
+              "summary": "Retrieve a specific post",
+              "responses": { "200": { "description": "Successful response" } },
+            },
+          "put":
+            {
+              "summary": "Update a specific post",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            { "$ref": "#/components/schemas/PostInput" },
+                        },
+                    },
+                },
+              "responses": { "200": { "description": "Updated" } },
+            },
+          "delete":
+            {
+              "summary": "Delete a specific post",
+              "responses": { "204": { "description": "No Content" } },
+            },
+        },
+      "/posts/{postId}/replies":
+        {
+          "parameters":
+            [
+              {
+                "name": "postId",
+                "in": "path",
+                "required": true,
+                "schema": { "type": "integer" },
+              },
+            ],
+          "get":
+            {
+              "summary": "List all replies",
+              "responses": { "200": { "description": "Successful response" } },
+            },
+          "post":
+            {
+              "summary": "Create a new reply",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            { "$ref": "#/components/schemas/ReplyInput" },
+                        },
+                    },
+                },
+              "responses": { "201": { "description": "Created" } },
+            },
+        },
+      "/replies/{replyId}":
+        {
+          "parameters":
+            [
+              {
+                "name": "replyId",
+                "in": "path",
+                "required": true,
+                "schema": { "type": "integer" },
+              },
+            ],
+          "get":
+            {
+              "summary": "Retrieve a specific reply",
+              "responses": { "200": { "description": "Successful response" } },
+            },
+          "put":
+            {
+              "summary": "Update a specific reply",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            { "$ref": "#/components/schemas/ReplyInput" },
+                        },
+                    },
+                },
+              "responses": { "200": { "description": "Updated" } },
+            },
+          "delete":
+            {
+              "summary": "Delete a specific reply",
+              "responses": { "204": { "description": "No Content" } },
+            },
+        },
+    },
+  "components":
+    {
+      "schemas":
+        {
+          "Forum":
+            {
+              "type": "object",
+              "properties":
+                {
+                  "id": { "type": "integer" },
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "createdAt": { "type": "string", "format": "date-time" },
+                },
+            },
+          "ForumInput":
+            {
+              "type": "object",
+              "required": ["title", "description"],
+              "properties":
+                {
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                },
+            },
+          "TopicInput":
+            {
+              "type": "object",
+              "required": ["title", "author"],
+              "properties":
+                {
+                  "title": { "type": "string" },
+                  "author": { "type": "string" },
+                },
+            },
+          "PostInput":
+            {
+              "type": "object",
+              "required": ["content", "author"],
+              "properties":
+                {
+                  "content": { "type": "string" },
+                  "author": { "type": "string" },
+                },
+            },
+          "ReplyInput":
+            {
+              "type": "object",
+              "required": ["content", "author"],
+              "properties":
+                {
+                  "content": { "type": "string" },
+                  "author": { "type": "string" },
+                },
+            },
+        },
+    },
+}
