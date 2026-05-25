@@ -1,4 +1,5 @@
 {
-  "organization": "shw",
-  "version": "5.35.4"
+    "organization": "your-org",
+    "workspace": "forum-social-api",
+    "version": "1.0.0"
 }

@@ -1,0 +1,79 @@
+# docs.yml
+instances:
+  - url: https://your-docs-domain.docs.buildwithfern.com
+    custom-domain: docs.yourdomain.com
+
+navigation:
+  - section: Quickstart / SDKs
+    contents:
+      - page: JavaScript SDK
+        path: docs/pages/javascript-sdk.mdx
+      - page: Python SDK
+        path: docs/pages/python-sdk.mdx
+      - page: cURL Quickstart
+        path: docs/pages/curl-sdk.mdx
+
+  - section: Getting Started
+    contents:
+      - page: Welcome
+        path: docs/pages/welcome.mdx
+      - page: Authentication
+        path: docs/pages/authentication.mdx
+      - page: Errors
+        path: docs/pages/errors.mdx
+  
+  - section: Platform
+    contents:
+      - page: API Conventions
+        path: docs/pages/api-conventions.mdx
+      - page: Rate Limits
+        path: docs/pages/rate-limits.mdx
+      - page: Changelog
+        path: docs/pages/changelog.mdx
+
+  - section: API Reference
+    contents:
+      - api: API Reference
+        api-name: forum-social-api
+
+  - section: Resources
+    contents:
+      - page: Forums
+        path: docs/pages/forums.mdx
+      - page: Topics
+        path: docs/pages/topics.mdx
+      - page: Posts
+        path: docs/pages/posts.mdx
+      - page: Replies
+        path: docs/pages/replies.mdx
+
+api:
+  - name: forum-social-api
+    openapi:
+      path: ./openapi.yml
+
+default-language: javascript
+
+colors:
+  accent-primary: "#2563eb"
+  background: "#ffffff"
+
+favicon: ./assets/favicon.ico
+
+logo:
+  light: ./assets/logo-light.svg
+  dark: ./assets/logo-dark.svg
+
+navbar-links:
+  - type: github
+    url: https://github.com/your-org/forum-social-api
+
+metadata:
+  title: Forum Social API
+  description: Complete CRUD API for Forums, Topics, Posts, and Replies.
+
+layout:
+  search: true
+  page-width: wide
+
+redirects: []

@@ -1,0 +1,19 @@
+name: Deploy Fern Docs
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm install -g @fern-api/cli
+      - run: fern generate --group docs
+      - run: fern docs publish
+        env:
+          FERN_TOKEN: ${{ secrets.FERN_TOKEN }}

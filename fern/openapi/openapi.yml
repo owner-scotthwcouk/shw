@@ -1,0 +1,926 @@
+openapi: 3.0.3
+info:
+  title: Forum Social API
+  description: |
+    Complete CRUD API for Forums, Topics, Posts, and Replies.
+
+    The API is organized around a simple hierarchy:
+    Forums → Topics → Posts → Replies.
+  version: 1.0.0
+  contact:
+    name: API Support
+servers:
+  - url: https://your-mock-server-url.mock.pstmn.io
+    description: Mock server
+
+tags:
+  - name: Forums
+    description: Operations for forums.
+  - name: Topics
+    description: Operations for topics inside forums.
+  - name: Posts
+    description: Operations for posts inside topics.
+  - name: Replies
+    description: Operations for replies inside posts.
+  - name: Errors
+    description: Standard error responses.
+
+security:
+  - bearerAuth: []
+
+paths:
+  /forums:
+    get:
+      tags: [Forums]
+      operationId: listForums
+      summary: List all forums
+      description: Retrieve all forums.
+      responses:
+        "200":
+          description: A list of forums.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Forum"
+              examples:
+                default:
+                  summary: Example forum list
+                  value:
+                    - id: 1
+                      title: General Discussion
+                      description: General community discussion.
+                      createdAt: "2026-01-01T12:00:00Z"
+                    - id: 2
+                      title: Announcements
+                      description: Official announcements.
+                      createdAt: "2026-01-02T09:30:00Z"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    post:
+      tags: [Forums]
+      operationId: createForum
+      summary: Create a new forum
+      description: Create a forum with a title and description.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForumInput"
+            examples:
+              default:
+                summary: Create forum request
+                value:
+                  title: General Discussion
+                  description: A place for community chat.
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Forum"
+              examples:
+                default:
+                  summary: Created forum
+                  value:
+                    id: 1
+                    title: General Discussion
+                    description: A place for community chat.
+                    createdAt: "2026-01-01T12:00:00Z"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /forums/{forumId}:
+    parameters:
+      - $ref: "#/components/parameters/forumId"
+
+    get:
+      tags: [Forums]
+      operationId: getForum
+      summary: Retrieve a specific forum
+      description: Retrieve a forum by its ID.
+      responses:
+        "200":
+          description: The requested forum.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Forum"
+              examples:
+                default:
+                  summary: Example forum
+                  value:
+                    id: 1
+                    title: General Discussion
+                    description: A place for community chat.
+                    createdAt: "2026-01-01T12:00:00Z"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    put:
+      tags: [Forums]
+      operationId: updateForum
+      summary: Update a specific forum
+      description: Replace the editable fields for a forum.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForumInput"
+            examples:
+              default:
+                summary: Update forum request
+                value:
+                  title: General Discussion
+                  description: Updated description.
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Forum"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    delete:
+      tags: [Forums]
+      operationId: deleteForum
+      summary: Delete a specific forum
+      description: Delete a forum by its ID.
+      responses:
+        "204":
+          description: No Content
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /forums/{forumId}/topics:
+    parameters:
+      - $ref: "#/components/parameters/forumId"
+
+    get:
+      tags: [Topics]
+      operationId: listTopicsByForum
+      summary: List all topics in a forum
+      description: Retrieve all topics that belong to a specific forum.
+      responses:
+        "200":
+          description: A list of topics.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Topic"
+              examples:
+                default:
+                  summary: Example topics
+                  value:
+                    - id: 10
+                      forumId: 1
+                      title: Introductions
+                      author: Alex
+                      createdAt: "2026-01-03T10:00:00Z"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    post:
+      tags: [Topics]
+      operationId: createTopic
+      summary: Create a new topic
+      description: Create a topic inside a forum.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TopicInput"
+            examples:
+              default:
+                summary: Create topic request
+                value:
+                  title: Introductions
+                  author: Alex
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Topic"
+              examples:
+                default:
+                  summary: Created topic
+                  value:
+                    id: 10
+                    forumId: 1
+                    title: Introductions
+                    author: Alex
+                    createdAt: "2026-01-03T10:00:00Z"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /topics/{topicId}:
+    parameters:
+      - $ref: "#/components/parameters/topicId"
+
+    get:
+      tags: [Topics]
+      operationId: getTopic
+      summary: Retrieve a specific topic
+      description: Retrieve a topic by its ID.
+      responses:
+        "200":
+          description: The requested topic.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Topic"
+              examples:
+                default:
+                  summary: Example topic
+                  value:
+                    id: 10
+                    forumId: 1
+                    title: Introductions
+                    author: Alex
+                    createdAt: "2026-01-03T10:00:00Z"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    put:
+      tags: [Topics]
+      operationId: updateTopic
+      summary: Update a specific topic
+      description: Replace the editable fields for a topic.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TopicInput"
+            examples:
+              default:
+                summary: Update topic request
+                value:
+                  title: Introductions and Greetings
+                  author: Alex
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Topic"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    delete:
+      tags: [Topics]
+      operationId: deleteTopic
+      summary: Delete a specific topic
+      description: Delete a topic by its ID.
+      responses:
+        "204":
+          description: No Content
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /topics/{topicId}/posts:
+    parameters:
+      - $ref: "#/components/parameters/topicId"
+
+    get:
+      tags: [Posts]
+      operationId: listPostsByTopic
+      summary: List all posts in a topic
+      description: Retrieve all posts that belong to a specific topic.
+      responses:
+        "200":
+          description: A list of posts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+              examples:
+                default:
+                  summary: Example posts
+                  value:
+                    - id: 100
+                      topicId: 10
+                      content: Hello everyone!
+                      author: Alex
+                      createdAt: "2026-01-03T10:15:00Z"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    post:
+      tags: [Posts]
+      operationId: createPost
+      summary: Create a new post
+      description: Create a post inside a topic.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostInput"
+            examples:
+              default:
+                summary: Create post request
+                value:
+                  content: Hello everyone!
+                  author: Alex
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+              examples:
+                default:
+                  summary: Created post
+                  value:
+                    id: 100
+                    topicId: 10
+                    content: Hello everyone!
+                    author: Alex
+                    createdAt: "2026-01-03T10:15:00Z"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /posts/{postId}:
+    parameters:
+      - $ref: "#/components/parameters/postId"
+
+    get:
+      tags: [Posts]
+      operationId: getPost
+      summary: Retrieve a specific post
+      description: Retrieve a post by its ID.
+      responses:
+        "200":
+          description: The requested post.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+              examples:
+                default:
+                  summary: Example post
+                  value:
+                    id: 100
+                    topicId: 10
+                    content: Hello everyone!
+                    author: Alex
+                    createdAt: "2026-01-03T10:15:00Z"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    put:
+      tags: [Posts]
+      operationId: updatePost
+      summary: Update a specific post
+      description: Replace the editable fields for a post.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostInput"
+            examples:
+              default:
+                summary: Update post request
+                value:
+                  content: Hello everyone, welcome to the forum!
+                  author: Alex
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    delete:
+      tags: [Posts]
+      operationId: deletePost
+      summary: Delete a specific post
+      description: Delete a post by its ID.
+      responses:
+        "204":
+          description: No Content
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /posts/{postId}/replies:
+    parameters:
+      - $ref: "#/components/parameters/postId"
+
+    get:
+      tags: [Replies]
+      operationId: listRepliesByPost
+      summary: List all replies in a post
+      description: Retrieve all replies that belong to a specific post.
+      responses:
+        "200":
+          description: A list of replies.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reply"
+              examples:
+                default:
+                  summary: Example replies
+                  value:
+                    - id: 1000
+                      postId: 100
+                      content: Thanks for sharing.
+                      author: Sam
+                      createdAt: "2026-01-03T10:20:00Z"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    post:
+      tags: [Replies]
+      operationId: createReply
+      summary: Create a new reply
+      description: Create a reply under a post.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReplyInput"
+            examples:
+              default:
+                summary: Create reply request
+                value:
+                  content: Thanks for sharing.
+                  author: Sam
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reply"
+              examples:
+                default:
+                  summary: Created reply
+                  value:
+                    id: 1000
+                    postId: 100
+                    content: Thanks for sharing.
+                    author: Sam
+                    createdAt: "2026-01-03T10:20:00Z"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /replies/{replyId}:
+    parameters:
+      - $ref: "#/components/parameters/replyId"
+
+    get:
+      tags: [Replies]
+      operationId: getReply
+      summary: Retrieve a specific reply
+      description: Retrieve a reply by its ID.
+      responses:
+        "200":
+          description: The requested reply.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reply"
+              examples:
+                default:
+                  summary: Example reply
+                  value:
+                    id: 1000
+                    postId: 100
+                    content: Thanks for sharing.
+                    author: Sam
+                    createdAt: "2026-01-03T10:20:00Z"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    put:
+      tags: [Replies]
+      operationId: updateReply
+      summary: Update a specific reply
+      description: Replace the editable fields for a reply.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReplyInput"
+            examples:
+              default:
+                summary: Update reply request
+                value:
+                  content: Thanks for sharing, very helpful.
+                  author: Sam
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reply"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    delete:
+      tags: [Replies]
+      operationId: deleteReply
+      summary: Delete a specific reply
+      description: Delete a reply by its ID.
+      responses:
+        "204":
+          description: No Content
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Provide a JWT in the Authorization header as `Bearer <token>`.
+
+  parameters:
+    forumId:
+      name: forumId
+      in: path
+      required: true
+      description: The numeric ID of the forum.
+      schema:
+        type: integer
+        format: int64
+        example: 1
+    topicId:
+      name: topicId
+      in: path
+      required: true
+      description: The numeric ID of the topic.
+      schema:
+        type: integer
+        format: int64
+        example: 10
+    postId:
+      name: postId
+      in: path
+      required: true
+      description: The numeric ID of the post.
+      schema:
+        type: integer
+        format: int64
+        example: 100
+    replyId:
+      name: replyId
+      in: path
+      required: true
+      description: The numeric ID of the reply.
+      schema:
+        type: integer
+        format: int64
+        example: 1000
+
+  responses:
+    BadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            default:
+              summary: Validation error
+              value:
+                code: bad_request
+                message: The request body is invalid.
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            default:
+              summary: Missing or invalid token
+              value:
+                code: unauthorized
+                message: Authentication credentials were missing or invalid.
+    NotFoundError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            default:
+              summary: Resource not found
+              value:
+                code: not_found
+                message: The requested resource could not be found.
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            default:
+              summary: Server error
+              value:
+                code: internal_server_error
+                message: An unexpected error occurred.
+
+  schemas:
+    Forum:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - title
+        - description
+        - createdAt
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: General Discussion
+        description:
+          type: string
+          example: A place for community chat.
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-01-01T12:00:00Z"
+
+    ForumInput:
+      type: object
+      additionalProperties: false
+      required:
+        - title
+        - description
+      properties:
+        title:
+          type: string
+          example: General Discussion
+        description:
+          type: string
+          example: A place for community chat.
+
+    Topic:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - forumId
+        - title
+        - author
+        - createdAt
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        forumId:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: Introductions
+        author:
+          type: string
+          example: Alex
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-01-03T10:00:00Z"
+
+    TopicInput:
+      type: object
+      additionalProperties: false
+      required:
+        - title
+        - author
+      properties:
+        title:
+          type: string
+          example: Introductions
+        author:
+          type: string
+          example: Alex
+
+    Post:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - topicId
+        - content
+        - author
+        - createdAt
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 100
+        topicId:
+          type: integer
+          format: int64
+          example: 10
+        content:
+          type: string
+          example: Hello everyone!
+        author:
+          type: string
+          example: Alex
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-01-03T10:15:00Z"
+
+    PostInput:
+      type: object
+      additionalProperties: false
+      required:
+        - content
+        - author
+      properties:
+        content:
+          type: string
+          example: Hello everyone!
+        author:
+          type: string
+          example: Alex
+
+    Reply:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - postId
+        - content
+        - author
+        - createdAt
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1000
+        postId:
+          type: integer
+          format: int64
+          example: 100
+        content:
+          type: string
+          example: Thanks for sharing.
+        author:
+          type: string
+          example: Sam
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-01-03T10:20:00Z"
+
+    ReplyInput:
+      type: object
+      additionalProperties: false
+      required:
+        - content
+        - author
+      properties:
+        content:
+          type: string
+          example: Thanks for sharing.
+        author:
+          type: string
+          example: Sam
+
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: bad_request
+        message:
+          type: string
+          example: The request body is invalid.

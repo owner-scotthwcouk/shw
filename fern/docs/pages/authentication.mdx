@@ -1,0 +1,31 @@
+---
+title: Authentication
+---
+
+# Authentication
+
+Currently, the API is configured for extensible auth support.
+
+## Bearer Token Example
+
+```bash
+Authorization: Bearer YOUR_TOKEN
+```
+
+## Example Request
+
+```bash
+curl -X GET https://your-mock-server-url.mock.pstmn.io/forums \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Security Notes
+
+- Use HTTPS only
+- Rotate tokens regularly
+- Never expose secrets client-side
+
+```
+
+---
+```

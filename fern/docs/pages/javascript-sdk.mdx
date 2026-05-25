@@ -1,0 +1,64 @@
+# `docs/pages/javascript-sdk.mdx`
+
+````mdx
+---
+title: JavaScript SDK Quickstart
+---
+
+# JavaScript SDK Quickstart
+
+Use JavaScript to interact with the Forum Social API.
+
+## Install
+
+```bash
+npm install axios
+```
+````
+
+## Configure Client
+
+```javascript
+import axios from "axios";
+
+const client = axios.create({
+  baseURL: "https://your-mock-server-url.mock.pstmn.io",
+  headers: {
+    Authorization: "Bearer YOUR_TOKEN",
+    "Content-Type": "application/json",
+  },
+});
+```
+
+## List Forums
+
+```javascript
+const response = await client.get("/forums");
+console.log(response.data);
+```
+
+## Create Forum
+
+```javascript
+await client.post("/forums", {
+  title: "Announcements",
+  description: "Official updates",
+});
+```
+
+## Create Topic
+
+```javascript
+await client.post("/forums/1/topics", {
+  title: "Release Discussion",
+  author: "Scott",
+});
+```
+
+```
+
+---
+
+
+
+```

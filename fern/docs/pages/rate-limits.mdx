@@ -1,0 +1,43 @@
+---
+title: Rate Limits
+---
+
+# Rate Limits
+
+To ensure stability and fair usage, requests are rate-limited.
+
+## Default Limits
+
+| Scope      | Limit          |
+| ---------- | -------------- |
+| Per minute | 100 requests   |
+| Per hour   | 5,000 requests |
+
+## Rate Limit Headers
+
+Responses may include:
+
+```http
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 84
+X-RateLimit-Reset: 1700000000
+```
+
+## Exceeded Limit
+
+If you exceed the allowed quota, the API returns:
+
+```http
+429 Too Many Requests
+```
+
+## Best Practices
+
+- Retry with backoff
+- Cache frequent reads
+- Batch operations when possible
+- Avoid unnecessary polling
+
+```
+
+```

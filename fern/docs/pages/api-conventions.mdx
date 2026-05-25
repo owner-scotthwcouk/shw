@@ -1,0 +1,85 @@
+---
+title: API Conventions
+---
+
+# API Conventions
+
+This API follows consistent REST and JSON conventions.
+
+## Base URL
+
+```bash
+https://your-mock-server-url.mock.pstmn.io
+```
+
+## Content Type
+
+All requests and responses use JSON.
+
+```http
+Content-Type: application/json
+```
+
+## Authentication
+
+Use bearer token authentication.
+
+```http
+Authorization: Bearer YOUR_TOKEN
+```
+
+## Naming Conventions
+
+- Resource names are plural (`/forums`, `/topics`)
+- Path params use IDs (`/forums/{forumId}`)
+- JSON fields use camelCase
+
+## HTTP Methods
+
+| Method | Purpose         |
+| ------ | --------------- |
+| GET    | Read data       |
+| POST   | Create resource |
+| PUT    | Update resource |
+| DELETE | Remove resource |
+
+## Status Codes
+
+| Code | Meaning               |
+| ---- | --------------------- |
+| 200  | Success               |
+| 201  | Created               |
+| 204  | No Content            |
+| 400  | Bad Request           |
+| 401  | Unauthorized          |
+| 404  | Not Found             |
+| 422  | Validation Error      |
+| 500  | Internal Server Error |
+
+## Pagination (Future Support)
+
+Recommended structure:
+
+```json
+{
+  "data": [],
+  "page": 1,
+  "pageSize": 25,
+  "total": 100
+}
+```
+
+## Error Shape
+
+Recommended standard response:
+
+```json
+{
+  "error": "Validation failed",
+  "message": "title is required"
+}
+```
+
+```
+
+```

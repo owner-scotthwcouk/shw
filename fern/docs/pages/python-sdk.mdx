@@ -1,0 +1,66 @@
+---
+title: Python SDK Quickstart
+---
+
+# Python SDK Quickstart
+
+Use Python to call the Forum Social API.
+
+## Install
+
+```bash
+pip install requests
+```
+
+## Configure Client
+
+```python
+import requests
+
+BASE_URL = "https://your-mock-server-url.mock.pstmn.io"
+HEADERS = {
+    "Authorization": "Bearer YOUR_TOKEN",
+    "Content-Type": "application/json"
+}
+```
+
+## List Forums
+
+```python
+response = requests.get(f"{BASE_URL}/forums", headers=HEADERS)
+print(response.json())
+```
+
+## Create Post
+
+```python
+payload = {
+    "content": "This is a discussion post.",
+    "author": "Scott"
+}
+
+requests.post(
+    f"{BASE_URL}/topics/1/posts",
+    json=payload,
+    headers=HEADERS
+)
+```
+
+## Create Reply
+
+```python
+reply = {
+    "content": "Thanks for the update!",
+    "author": "Scott"
+}
+
+requests.post(
+    f"{BASE_URL}/posts/1/replies",
+    json=reply,
+    headers=HEADERS
+)
+```
+
+```
+
+```

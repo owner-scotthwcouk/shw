@@ -1,0 +1,32 @@
+---
+title: Errors
+---
+
+# Error Handling
+
+The API uses standard HTTP response codes.
+
+## Common Errors
+
+| Code | Meaning               |
+| ---- | --------------------- |
+| 400  | Bad Request           |
+| 401  | Unauthorized          |
+| 403  | Forbidden             |
+| 404  | Not Found             |
+| 422  | Validation Failed     |
+| 500  | Internal Server Error |
+
+## Example Error Response
+
+```json
+{
+  "error": "Validation failed",
+  "message": "title is required"
+}
+```
+
+```
+
+---
+```

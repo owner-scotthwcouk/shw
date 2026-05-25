@@ -1,0 +1,54 @@
+---
+title: cURL Quickstart
+---
+
+# cURL Quickstart
+
+Use cURL for quick API testing.
+
+## List Forums
+
+```bash
+curl -X GET https://your-mock-server-url.mock.pstmn.io/forums \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Create Forum
+
+```bash
+curl -X POST https://your-mock-server-url.mock.pstmn.io/forums \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Announcements",
+    "description": "Official updates"
+  }'
+```
+
+## Create Topic
+
+```bash
+curl -X POST https://your-mock-server-url.mock.pstmn.io/forums/1/topics \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Release Discussion",
+    "author": "Scott"
+  }'
+```
+
+## Create Reply
+
+```bash
+curl -X POST https://your-mock-server-url.mock.pstmn.io/posts/1/replies \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "Thanks for the update!",
+    "author": "Scott"
+  }'
+```
+
+```
+
+```
