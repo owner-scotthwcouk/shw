@@ -1,7 +1,7 @@
 # docs.yml
 instances:
-  - url: https://your-docs-domain.docs.buildwithfern.com
-    custom-domain: docs.yourdomain.com
+  - url: https://social-forums-postman-collection.docs.buildwithfern.com
+    name: Postman Collection
 
 navigation:
   - section: Quickstart / SDKs
@@ -21,7 +21,7 @@ navigation:
         path: docs/pages/authentication.mdx
       - page: Errors
         path: docs/pages/errors.mdx
-  
+
   - section: Platform
     contents:
       - page: API Conventions

@@ -2,5 +2,5 @@ data:
   sample: {}
   secret: {}
 generators:
-  - name: fernapi/fern-docs
+  fernapi/fern-docs:
     version: latest
